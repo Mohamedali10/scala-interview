@@ -22,8 +22,8 @@ object BasicScala {
   def encodeParamsInUrl(params: Map[String, String]): String = {
     def buildUrlRecursive(paramsList: List[(String, String)], spearator: String): String = {
       paramsList match {
-        case (key, value) :: remainigParams => spearator + s"$key=$value" + buildUrlRecursive(remainigParams, "&")
         case List() => ""
+        case (key, value) :: remainigParams => spearator + s"$key=$value" + buildUrlRecursive(remainigParams, "&")
       }
     }
     buildUrlRecursive(params.toList, "?")
