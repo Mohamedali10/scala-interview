@@ -12,6 +12,9 @@ object WhatsWrong1 {
     override val city = "Paris"
   }
 
-  Supporter.city //What does this print ?
+  Supporter.city //What does this print ? => this print: Paris
   Supporter.support //What does this print and why ? How to fix it ?
+  // => this print: "Ici c'est null";  because support val is already computed
+  // so the value of support is not computed at the call time.
+  // a solution is to use lazy evaluation in Interface: lazy val support: String = s"Ici c'est $city !"
 }

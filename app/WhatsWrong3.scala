@@ -11,10 +11,10 @@ import scala.concurrent.ExecutionContext.Implicits.global
  * What would you do to fix it ?
  * Do not mind about the not implemented code
  */
-class WhatsWrong3 extends Actor {
+class WhatsWrong3 extends Actor with ActorLogging {
 
   var internalState = "internal state"
-
+  //the receive methode should handle cases where the received messages is not equal to "a query"
   def receive: Receive = {
     case "a query" => {
       val requestF: Future[String] = queryAsyncServer()
@@ -23,6 +23,7 @@ class WhatsWrong3 extends Actor {
         case Failure(e) => e.printStackTrace()
       }
     }
+    case _ => log.error ("unexpexted message!")
   }
 
   def handleResponse(r: String) = ??? // mutate internal state

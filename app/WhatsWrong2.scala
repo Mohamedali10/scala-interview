@@ -1,9 +1,5 @@
 package com.particeep.test
 
-import scala.concurrent.Future
-
-import scala.concurrent.ExecutionContext.Implicits.global
-
 case class CEO(id: String, first_name: String, last_name: String)
 case class Enterprise(id: String, name: String, ceo_id: String)
 
@@ -29,10 +25,12 @@ object EnterpriseDao {
 object WhatsWrong2 {
 
   //Review this code. What could be done better ? How would you do it ?
+  // => it is not a best practice to use get on an option value, it may raise an exception.
   def getCEOAndEnterprise(ceo_id: Option[String]): Future[(Option[CEO], Option[Enterprise])] = {
     for {
-      ceo <- CEODao.byId(ceo_id.get)
-      enterprise <- EnterpriseDao.byCEOId(ceo_id.get)
+      ceoId <- Future { ceo_id.getOrElse("") }
+      ceo <- CEODao.byId(ceoId)
+      enterprise <- EnterpriseDao.byCEOId(ceoId)
     } yield {
       (ceo, enterprise)
     }
